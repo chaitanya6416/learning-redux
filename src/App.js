@@ -5,7 +5,8 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom'
-
+import { PostsList } from './features/posts/postsList'
+import { AddForm } from './features/posts/AddPostForm'
 import { Navbar } from './app/Navbar'
 
 function App() {
@@ -19,12 +20,16 @@ function App() {
             path="/"
             render={() => (
               <section>
-                <h2>Welcome to the Redux Essentials example app!</h2>
+                <React.Fragment>
+                  <AddForm />
+                  <PostsList />
+                </React.Fragment>
               </section>
             )}
           />
           <Redirect to="/" />
         </Switch>
+
       </div>
     </Router>
   )
