@@ -1,25 +1,29 @@
 import React, {useState} from "react";
-import { useDispatch } from "react-redux";
-import { nanoid } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPosts, postAdded } from "./postsSlice";
 
-import { postAdded } from "./postsSlice";
 
 export const AddForm = () => {
+    // get users data
+    const users = useSelector(state => state.users)
+
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
+    const [authorId, setAuthorId] = useState('')
     
     const dispatch = useDispatch()
-
+    dispatch(fetchPosts)
     const onTitleChange = (e) => setTitle(e.target.value)
     const onContentChange = (e) => setContent(e.target.value)
+    const onAuthorChanged = (e) => setAuthorId(e.target.value)
 
     const onSavePostClick = () => {
         if(title && content) {
             dispatch(
                 postAdded({
-                    id: nanoid(),
                     title, 
-                    content
+                    content,
+                    postAuthor
                 })
             )
 
@@ -30,6 +34,13 @@ export const AddForm = () => {
             alert('title or content is missing')
         }
     }
+
+    const usersOptions = users.map(user => (
+        <option key={user.id} value={user.id}>
+            {user.name}
+        </option>
+
+    ))
 
     return (
         <section>
@@ -43,6 +54,12 @@ export const AddForm = () => {
                     value = {title}
                     onChange={onTitleChange}
                 />
+
+                <label htmlFor="postAuthor">Author:</label>
+                <select id="postAuthor" value={authorId} onChange={onAuthorChanged}>
+                    <option value=""></option>
+                    {usersOptions}
+                </select>
         
                 <label htmlFor="postContent">Post Content:</label>
                 <input 
