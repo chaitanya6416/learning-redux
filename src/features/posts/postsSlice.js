@@ -26,9 +26,6 @@ const postsSlice = createSlice(
     }
 )
 
-console.log("xyz")
-console.log(postsSlice)
-
 export const { postAdded, postUpdated } = postsSlice.actions
 
 export default postsSlice.reducer
